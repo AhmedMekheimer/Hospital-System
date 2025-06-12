@@ -1,0 +1,156 @@
+﻿@using Hospital_System.ViewModels
+@model DoctorsWithFiltersVM
+
+<div class="container mt-4">
+	<h1 class="mb-4" style="font-size: x-large; font-weight: bold; text-align: left;">Book Appointment</h1>
+
+	<form id="filter-form" class="filter-bar">
+		<!-- Doctor Name Filter -->
+		<div class="filter-group">
+			<label for="doctor-name">Doctor Name</label>
+			<input type="text" id="doctor-name" name="DoctorName" value="@Model.DoctorName" placeholder="Search by Name...">
+		</div>
+
+		<!-- Price Range Filter -->
+		<div class="filter-group">
+			<label for="min-price">Price Range</label>
+			<div class="price-range">
+				<input type="number" id="min-price" name="Min" value="@Model.Min" placeholder="Min" min="0">
+				<span>to</span>
+				<input type="number" id="max-price" name="Max" value="@Model.Max" placeholder="Max" min="0">
+			</div>
+		</div>
+
+		<!-- Sort by Most Visited Checkbox -->
+		<div class="filter-group">
+			<label class="checkbox-label">
+				<input type="checkbox" id="sort-by-most-visited" name="MostVisited" value="true" @(Model.MostVisited ? "checked" : "")>
+				<span>Sort By Most Visited</span>
+			</label>
+		</div>
+
+		<!-- Specialization Dropdown -->
+		<div class="filter-group">
+			<label for="Specialization">Specialization</label>
+			<select id="Specialization" name="SpecializationId">
+				<option value="">All Specializations</option>
+				@if(Model.Specializations is List<Specialization> specializations)
+				{
+					@foreach (var spec in Model.Specializations)
+					{
+						if(spec.SpecializationId==Model.SpecializationId)
+						{
+							<option value="@spec.SpecializationId" selected>@spec.Name</option>
+						}
+						else
+						{
+							<option value="@spec.SpecializationId">@spec.Name</option>
+						}
+					}
+				}
+			
+			</select>
+		</div>
+
+		<!-- Submit Button -->
+		<button type="submit" class="filter-button">Apply Filters</button>
+	</form>
+
+	<div class="row justify-content-center">
+		@foreach (var item in Model.Doctors)
+		{
+			<div class="col-md-4 mb-4 text-center">
+				<div class="doctor-card p-3">
+					<img src="@Url.Content(item.Img)"
+						 class="doctor-image img-fluid rounded"
+						 alt="@item.Name" />
+					<h5 class="mt-2">@item.Name</h5>
+					<p class="text-muted">@item.Specialization.Name</p>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<style>
+	.doctor-image {
+		max-width: 250px; /* Control image size */
+		height: 250px;
+		margin: 0 auto; /* Center image horizontally */
+		display: block; /* Required for margin auto to work */
+	}
+
+	.doctor-card {
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		transition: transform 0.2s;
+	}
+
+		.doctor-card:hover {
+			transform: translateY(-5px);
+		}
+
+	.filter-bar {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 15px;
+		align-items: flex-end;
+		padding: 15px;
+		background-color: #f5f5f5;
+		border-radius: 8px;
+		margin-bottom: 20px;
+	}
+
+	.filter-group {
+		display: flex;
+		flex-direction: column;
+		min-width: 150px;
+	}
+
+		.filter-group label {
+			margin-bottom: 5px;
+			font-weight: 600;
+			font-size: 14px;
+		}
+
+		.filter-group input[type="text"],
+		.filter-group input[type="number"],
+		.filter-group select {
+			padding: 8px 12px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			font-size: 14px;
+		}
+
+	.price-range {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+	}
+
+		.price-range input {
+			width: 80px;
+		}
+
+	.checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		cursor: pointer;
+	}
+
+	.filter-button {
+		padding: 8px 20px;
+		background-color: #4CAF50;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		font-weight: 600;
+		height: 36px;
+	}
+
+		.filter-button:hover {
+			background-color: #45a049;
+		}
+</style>
