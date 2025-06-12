@@ -1,5 +1,5 @@
-# **An Under-development ASP.NET Core MVC Project**
+# **An under-development ASP.NET Core MVC Project**
 
-## Applied Features
+**Applied Features**
 - Model Bonding
 - Filters Bar
