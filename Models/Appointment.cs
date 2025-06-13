@@ -1,6 +1,6 @@
 ﻿namespace Hospital_System.Models
 {
-    public class Appointments
+    public class Appointment
     {
         public int AppointmentId { get; set; }
         public int DoctorId { get; set; }

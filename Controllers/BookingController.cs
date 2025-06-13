@@ -13,6 +13,7 @@ namespace Hospital_System.Controllers
         {
             _db = db;
         }
+
         public IActionResult Index(DoctorsWithFiltersVM doctorsWithFiltersVM)
         {
             IQueryable<Doctor> doctors = _db.Doctors.Include(e => e.Specialization);
@@ -67,13 +68,13 @@ namespace Hospital_System.Controllers
         }
         public IActionResult Appointment(AppointmentDetailsVM appointmentDetailsVM)
         {
-            if(appointmentDetailsVM.DoctorId>0 && appointmentDetailsVM.DoctorId<= _db.Doctors.Count())
+            if(appointmentDetailsVM.Id>0 && appointmentDetailsVM.Id<= _db.Doctors.Count())
             {
-                var doctor = _db.Doctors.FirstOrDefault(e => e.DoctorId == appointmentDetailsVM.DoctorId);
+                var doctor = _db.Doctors.FirstOrDefault(e => e.DoctorId == appointmentDetailsVM.Id);
                 doctor.Frequency++;
                 _db.SaveChanges();
             }
-
+            
             return View(appointmentDetailsVM);
         }
     }

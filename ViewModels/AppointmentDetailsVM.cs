@@ -4,6 +4,6 @@ namespace Hospital_System.ViewModels
 {
     public class AppointmentDetailsVM
     {
-        public int DoctorId { get; set; }
+        public int Id { get; set; }
     }
 }

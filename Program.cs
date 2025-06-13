@@ -48,7 +48,7 @@ namespace Hospital_System
 
             app.MapControllerRoute(
                  name: "appointment",
-                 pattern: "{controller=Booking}/{action=Appointment}/{id?}/{DoctorId}")
+                 pattern: "{controller=Booking}/{action=Appointment}/{id?}")
 
                 .WithStaticAssets();
 
