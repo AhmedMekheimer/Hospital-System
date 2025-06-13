@@ -1,5 +1,6 @@
 using Hospital_System.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 
 namespace Hospital_System
 {
@@ -37,6 +38,18 @@ namespace Hospital_System
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
+                .WithStaticAssets();
+
+            app.MapControllerRoute(
+                 name: "booking",
+                 pattern: "{controller=Booking}/{action=Index}/{id?}/{Page?}")
+
+                .WithStaticAssets();
+
+            app.MapControllerRoute(
+                 name: "appointment",
+                 pattern: "{controller=Booking}/{action=Appointment}/{id?}/{DoctorId}")
+
                 .WithStaticAssets();
 
 

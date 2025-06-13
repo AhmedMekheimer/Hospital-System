@@ -13,5 +13,7 @@ namespace Hospital_System.ViewModels
         //Properties Sent to be Viewed
         public List<Specialization> Specializations { get; set; } = new List<Specialization>();
         public List<Doctor> Doctors { get; set; } = new List<Doctor>();
+        public int Page { get; set; }
+        public int NoPages { get; set; }
     }
 }

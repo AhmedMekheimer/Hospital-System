@@ -41,15 +41,40 @@ namespace Hospital_System.Controllers
             }
 
             //Specialization Filter
-            if (doctorsWithFiltersVM.SpecializationId > 0 && doctorsWithFiltersVM.SpecializationId<specializations.Count)
+            if (doctorsWithFiltersVM.SpecializationId > 0 && doctorsWithFiltersVM.SpecializationId <= specializations.Count)
             {
                 doctors = doctors.Where(e => e.Specialization.SpecializationId == doctorsWithFiltersVM.SpecializationId);
             }
+
+            //Pagination
+            double NoDoctorsPerPage = 5.0;
+            int NoPages = (int)Math.Ceiling(doctors.Count() / NoDoctorsPerPage);
+            doctorsWithFiltersVM.NoPages = NoPages;
+            if (doctorsWithFiltersVM.Page <= 0)
+            {
+                doctorsWithFiltersVM.Page = 1;
+            }
+            else if (doctorsWithFiltersVM.Page > NoPages)
+            {
+                doctorsWithFiltersVM.Page = NoPages;
+            }
+            doctors=doctors.Skip((int)((doctorsWithFiltersVM.Page - 1) * NoDoctorsPerPage)).Take((int)NoDoctorsPerPage);
 
             //Passing Specializations for Drop Menu & Doctors to View after Filters
             doctorsWithFiltersVM.Specializations = specializations;
             doctorsWithFiltersVM.Doctors = doctors.ToList();
             return View(doctorsWithFiltersVM);
+        }
+        public IActionResult Appointment(AppointmentDetailsVM appointmentDetailsVM)
+        {
+            if(appointmentDetailsVM.DoctorId>0 && appointmentDetailsVM.DoctorId<= _db.Doctors.Count())
+            {
+                var doctor = _db.Doctors.FirstOrDefault(e => e.DoctorId == appointmentDetailsVM.DoctorId);
+                doctor.Frequency++;
+                _db.SaveChanges();
+            }
+
+            return View(appointmentDetailsVM);
         }
     }
 }

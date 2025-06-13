@@ -2,8 +2,8 @@
 @model DoctorsWithFiltersVM
 
 <div class="container mt-4">
-	<h1 class="mb-4" style="font-size: x-large; font-weight: bold; text-align: left;">Book Appointment</h1>
-
+	<h1 class="mb-4" style="font-size: x-large; font-weight: bold; text-align: left;">Search for Doctors</h1>
+	<!-- Filters Bar -->
 	<form id="filter-form" class="filter-bar">
 		<!-- Doctor Name Filter -->
 		<div class="filter-group">
@@ -34,11 +34,11 @@
 			<label for="Specialization">Specialization</label>
 			<select id="Specialization" name="SpecializationId">
 				<option value="">All Specializations</option>
-				@if(Model.Specializations is List<Specialization> specializations)
+				@if (Model.Specializations is List<Specialization> specializations)
 				{
 					@foreach (var spec in Model.Specializations)
 					{
-						if(spec.SpecializationId==Model.SpecializationId)
+						if (spec.SpecializationId == Model.SpecializationId)
 						{
 							<option value="@spec.SpecializationId" selected>@spec.Name</option>
 						}
@@ -48,7 +48,7 @@
 						}
 					}
 				}
-			
+
 			</select>
 		</div>
 
@@ -56,23 +56,99 @@
 		<button type="submit" class="filter-button">Apply Filters</button>
 	</form>
 
-	<div class="row justify-content-center">
-		@foreach (var item in Model.Doctors)
-		{
-			<div class="col-md-4 mb-4 text-center">
-				<div class="doctor-card p-3">
-					<img src="@Url.Content(item.Img)"
-						 class="doctor-image img-fluid rounded"
-						 alt="@item.Name" />
-					<h5 class="mt-2">@item.Name</h5>
-					<p class="text-muted">@item.Specialization.Name</p>
+	@if(Model.Doctors.Count==0)
+	{
+		<div class="row m-5">
+			<class class="col-12">
+				<div class="display-5 d-flex justify-content-center align-content-center">No Doctors</div>
+			</class>
+		</div>
+	}
+	else
+	{
+		<div class="row justify-content-center">
+			@foreach (var item in Model.Doctors)
+			{
+				<div class="col-md-4 mb-4 text-center">
+					<div class="doctor-card p-3">
+						<img src="~/@item.Img"
+							 class="doctor-image img-fluid rounded"
+							 alt="@item.Name" />
+						<h5 class="mt-2">@item.Name</h5>
+						<p class="text-muted">@item.Specialization.Name</p>
+						<a class="btn btn-outline-dark mt-auto" href="~/Booking/Appointment/?DoctorId=@item.DoctorId">Book An Appointment</a>
+					</div>
 				</div>
-			</div>
-		}
+			}
+		</div>
+	}
+	<div class="pagination-wrapper">
+		<div class="pagination">
+			@if (Model.Page > 1)
+			{
+				<a href="~/Booking/?Page=@Model.Page-1">&laquo; Previous</a>
+			}
+			@for (int i = 1; i <= Model.NoPages; i++)
+			{
+				<a href="~/Booking/?Page=@i" class="@(i == Model.Page ? "active" : "")">@i</a>
+			}
+			@if (Model.Page > 0 && Model.Page < Model.NoPages)
+			{
+				<a href="~/Booking/?Page=@Model.Page+1">Next &raquo;</a>
+			}
+		</div>
 	</div>
+
 </div>
 
+
+
+
 <style>
+	.pagination-wrapper {
+		text-align: center;
+		margin-top: 20px;
+	}
+
+	.pagination {
+		background-color: white;
+		padding: 10px;
+		display: flex;
+		justify-content: center;
+		gap: 5px;
+		font-family: sans-serif;
+	}
+
+		.pagination a {
+			color: #28a745;
+			border: 1px solid #28a745;
+			padding: 8px 12px;
+			text-decoration: none;
+			border-radius: 4px;
+			transition: 0.3s;
+		}
+
+			.pagination a:hover,
+			.pagination a.active {
+				background-color: #28a745;
+				color: white;
+			}
+
+	.green-button {
+		background-color: #28a745;
+		color: white;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 4px;
+		font-size: 16px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+		.green-button:hover {
+			background-color: #218838;
+		}
+
 	.doctor-image {
 		max-width: 250px; /* Control image size */
 		height: 250px;
