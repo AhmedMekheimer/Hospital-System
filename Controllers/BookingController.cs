@@ -73,9 +73,21 @@ namespace Hospital_System.Controllers
                 var doctor = _db.Doctors.FirstOrDefault(e => e.DoctorId == appointmentDetailsVM.Id);
                 doctor.Frequency++;
                 _db.SaveChanges();
+                appointmentDetailsVM.Doctor = doctor;
             }
-            
+            var ReservedAppointments = _db.Appointments.Select(e=>e.AppointmentTime).ToList();
+            appointmentDetailsVM.ReservedAppointments = ReservedAppointments;
             return View(appointmentDetailsVM);
+        }
+        public IActionResult AppointmentConfirm(Appointment appointment)
+        {
+            _db.Appointments.Add(appointment);
+            _db.SaveChanges();
+            if(appointment is not null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
         }
     }
 }

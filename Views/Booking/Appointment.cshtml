@@ -1,2 +1,57 @@
 ﻿@using Hospital_System.ViewModels
 @model AppointmentDetailsVM
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Appointment Booking with @Model.Doctor.Name</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/Booking/AppointmentConfirm">
+                        <input type="hidden" name="DoctorId" value="@Model.Doctor.DoctorId" />
+                        <!-- Patient Name -->
+                        <div class="form-group mb-3">
+                            <label for="patient" class="form-label">Patient Name</label>
+                            <input type="text" class="form-control" id="patient" name="Patient"
+                            placeholder="Enter your full name" required>
+                        </div>
+
+                        <!-- Appointment Date -->
+                        <div class="form-group mb-3">
+                            <label for="appointmentDate" class="form-label">Appointment Date</label>
+                            <input type="date" class="form-control" id="appointmentDate" name="AppointmentDate"
+                            min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                        </div>
+
+                        <!-- Appointment Time -->
+                        <div class="filter-group">
+                            <label for="appointmentTime">Appointment Time</label>
+                            <select id="appointmentTime" name="AppointmentTime">
+                                <option value="">Available Appointments</option>
+
+                                @for (TimeOnly i = new TimeOnly(10, 00); i < new TimeOnly(17, 00); i=i.AddMinutes(30))
+                                {
+                                    bool reserved = false;
+                                    foreach (var time in Model.ReservedAppointments)
+                                    {
+                                        if(time == i)
+                                        {
+                                            reserved = true;
+                                        }
+                                    }
+                                    if(!reserved)
+                                    {
+                                        <option value="@i">@i to @(i.AddMinutes(30)) </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3" >Book Appointment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
