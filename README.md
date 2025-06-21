@@ -1,5 +1,6 @@
-# **An Under-development ASP.NET Core MVC Project**
+# **ASP.NET Core MVC Task**
 
 **Applied Features**
 - Model Bonding
 - Filters Bar
+- Pagination
