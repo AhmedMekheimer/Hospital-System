@@ -27,12 +27,12 @@ namespace Hospital_System.Controllers
             //Min Price Filter
             if (doctorsWithFiltersVM.Min > 0)
             {
-                doctors = doctors.Where(e => e.Price > doctorsWithFiltersVM.Min);
+                doctors = doctors.Where(e => e.Price >= doctorsWithFiltersVM.Min);
             }
             //Max Price Filter
             if (doctorsWithFiltersVM.Max > 0)
             {
-                doctors = doctors.Where(e => e.Price > doctorsWithFiltersVM.Max);
+                doctors = doctors.Where(e => e.Price <= doctorsWithFiltersVM.Max);
             }
 
             //Sort by Most Visited Filter
